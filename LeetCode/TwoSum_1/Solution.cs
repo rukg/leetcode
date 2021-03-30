@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LeetCode.TwoSum_1
 {
     public class Solution
     {
-        
         /// <summary>
         /// Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
         /// You may assume that each input would have exactly one solution, and you may not use the same element twice.
@@ -21,9 +21,31 @@ namespace LeetCode.TwoSum_1
         public int[] TwoSum(int[] nums, int target)
         {
 
+            var dict = new Dictionary<int, int>();
             
-            return new[] {0, 1};
-        }
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (dict.ContainsKey(nums[i]))
+                {
+                    dict[nums[i]] = i;
+                }
+                else
+                {
+                    dict.Add(nums[i], i);
+                }
+            }
 
+            for (var i = 0; i < nums.Length; i++)
+            {
+                var remainder = target - nums[i];
+
+                if (dict.ContainsKey(remainder) && dict[remainder] != i)
+                {
+                    return new[] {i, dict[remainder]};
+                }
+            }
+
+            return null;
+        }
     }
 }
